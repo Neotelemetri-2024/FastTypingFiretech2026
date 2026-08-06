@@ -27,7 +27,7 @@ export default function MyScoreTable() {
     return subscribeMyScores(refresh);
   }, []);
 
-  const handleInclude = (score: MyScore) => {
+  const handleInclude = (score: MyScore, displayNumber: number) => {
     const updated = toggleIncludeScore(score.recordedAt);
     setScores(updated);
 
@@ -38,7 +38,7 @@ export default function MyScoreTable() {
     if (nowIncluded) {
       setToast({
         open: true,
-        message: `Race #${score.race} included on the Latest High Scores!`,
+        message: `Race #${displayNumber} included on the Latest High Scores!`,
         type: "success",
       });
     }
@@ -95,7 +95,7 @@ export default function MyScoreTable() {
                     darkMode ? "text-slate-900" : "text-white"
                   }`}
                 >
-                  Race #{score.race}
+                  Race #{index + 1}
                 </span>
                 <span
                   className={`inline-flex items-center gap-1 text-[11px] whitespace-nowrap ${
@@ -139,7 +139,7 @@ export default function MyScoreTable() {
 
               <button
                 type="button"
-                onClick={() => handleInclude(score)}
+                onClick={() => handleInclude(score, index + 1)}
                 className={`mt-3 inline-flex w-full cursor-pointer items-center justify-center gap-1.5 rounded-full border px-3.5 py-2 text-xs font-semibold transition-colors duration-200 ${
                   score.included
                     ? "border-green-500 bg-green-500 text-white hover:bg-green-600"
@@ -223,7 +223,7 @@ export default function MyScoreTable() {
                       darkMode ? "text-slate-900" : "text-white"
                     }`}
                   >
-                    #{score.race}
+                    #{index + 1}
                   </td>
                   <td className="px-4 py-4 sm:px-6">
                     <span
@@ -273,7 +273,7 @@ export default function MyScoreTable() {
                   <td className="px-4 py-4 pr-6 text-right sm:px-6">
                     <button
                       type="button"
-                      onClick={() => handleInclude(score)}
+                      onClick={() => handleInclude(score, index + 1)}
                       className={`inline-flex cursor-pointer items-center gap-1.5 rounded-full border px-3.5 py-1.5 text-xs font-semibold whitespace-nowrap transition-colors duration-200 ${
                         score.included
                           ? "border-green-500 bg-green-500 text-white hover:bg-green-600"

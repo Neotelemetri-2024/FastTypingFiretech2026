@@ -17,8 +17,8 @@ export const TABS: { id: ScoreTab; label: string; icon: LucideIcon }[] = [
 export const FLOAT_KEYS = [
   { label: "Q", position: "left-2 top-14", delay: 0, duration: 4 },
   { label: "W", position: "right-2 top-44", delay: 0.8, duration: 4.6 },
-  { label: "5", position: "left-4 bottom-20", delay: 1.4, duration: 4.2 },
-  { label: "R", position: "right-6 bottom-24", delay: 0.4, duration: 5 },
+  { label: "E", position: "left-4 bottom-10", delay: 1.4, duration: 4.2 },
+  { label: "R", position: "right-6 bottom-6", delay: 0.4, duration: 5 },
 ];
 
 export const EASE_OUT: [number, number, number, number] = [0.22, 1, 0.36, 1];

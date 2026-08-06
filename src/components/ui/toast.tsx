@@ -48,7 +48,19 @@ export default function Toast({
     <div
       role="status"
       aria-live="polite"
-      className="fixed right-4 top-4 z-10000 w-[calc(100%-2rem)] max-w-md sm:right-6 sm:top-24"
+      className="
+      fixed
+      left-3
+      right-3
+      top-24
+      z-10000
+      mx-auto
+      max-w-sm
+      sm:left-auto
+      sm:right-6
+      sm:top-28
+      sm:max-w-md
+      "
       style={{
         animation: "proof-slide-down 0.35s cubic-bezier(0.16, 1, 0.3, 1)",
       }}
