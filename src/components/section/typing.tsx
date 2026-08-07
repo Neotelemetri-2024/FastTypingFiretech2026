@@ -7,9 +7,15 @@ import {
   RaceInput,
   RacePassage,
   RaceStats,
+  PlayerNameGate,
   type RaceStatsType,
 } from "../typing";
-import { EASE_OUT, RACE_DURATION, RACE_TEXT } from "../typing/typing-data";
+import {
+  EASE_OUT,
+  getSpeedStats,
+  RACE_DURATION,
+  RACE_TEXT,
+} from "../typing/typing-data";
 
 import ResultModal, { type PracticeScore } from "../../components/modal/result";
 import { loadMyScores, saveMyScore } from "../../lib/myScores";
@@ -22,6 +28,8 @@ export default function Typing() {
   const navigate = useNavigate();
   const [input, setInput] = useState("");
   const [secondsLeft, setSecondsLeft] = useState(RACE_DURATION);
+  const [started, setStarted] = useState(false);
+  const [playerName, setPlayerName] = useState("");
 
   const [showResult, setShowResult] = useState(false);
   const [scores, setScores] = useState<PracticeScore[]>(() =>
@@ -34,52 +42,49 @@ export default function Typing() {
   const isFinished = secondsLeft <= 0 || input.length >= RACE_TEXT.length;
 
   useEffect(() => {
-    if (isFinished) return;
+    if (!started || isFinished) return;
     const timer = setInterval(() => {
       setSecondsLeft((prev) => Math.max(prev - 1, 0));
     }, 1000);
     return () => clearInterval(timer);
-  }, [isFinished]);
+  }, [started, isFinished]);
 
   const elapsed = RACE_DURATION - secondsLeft;
-  const cpm = elapsed > 0 ? Math.round((input.length / elapsed) * 60) : 0;
+
+  // Formula ala monkeytype: net WPM (karakter benar), raw WPM (semua ketikan),
+  // dan accuracy dari kecocokan per posisi karakter. `getSpeedStats` adalah
+  // satu-satunya sumber kebenaran statistik race.
+  const { wpm, accuracy } = useMemo(
+    () => getSpeedStats(input, elapsed),
+    [input, elapsed],
+  );
 
   const progress = Math.min((input.length / RACE_TEXT.length) * 100, 100);
 
-  const accuracy = useMemo(() => {
-    if (!input) return 100;
-    const words = RACE_TEXT.split(" ");
-    const typedWords = input.split(" ");
-    let correctChars = 0;
-    let totalChars = 0;
-
-    typedWords.forEach((typedWord, index) => {
-      const expected = words[index];
-      if (!expected) return;
-      totalChars += typedWord.length;
-      for (let i = 0; i < Math.min(typedWord.length, expected.length); i++) {
-        if (typedWord[i] === expected[i]) correctChars++;
-      }
-    });
-
-    return totalChars === 0
-      ? 100
-      : Math.round((correctChars / totalChars) * 100);
-  }, [input]);
-
   const stats: RaceStatsType = { progress, accuracy };
   useEffect(() => {
-    if (!isFinished || hasShownResult.current) return;
+    if (!started || !isFinished || hasShownResult.current) return;
 
     hasShownResult.current = true;
 
-    const updated = saveMyScore({ speed: cpm, accuracy, time: `${elapsed}s` });
+    const updated = saveMyScore({
+      name: playerName,
+      speed: wpm,
+      accuracy,
+      time: `${elapsed}s`,
+    });
     setScores(updated.slice(0, 3));
 
     requestAnimationFrame(() => {
       setShowResult(true);
     });
-  }, [isFinished, cpm, accuracy, elapsed]);
+  }, [started, isFinished, wpm, accuracy, elapsed, playerName]);
+
+  const handleNameSubmit = (name: string) => {
+    setPlayerName(name);
+    setStarted(true);
+    requestAnimationFrame(() => inputRef.current?.focus());
+  };
 
   const handleRestart = () => {
     hasShownResult.current = false;
@@ -140,27 +145,32 @@ export default function Typing() {
         }`}
       >
         <RaceHeader
+          playerName={playerName}
           secondsLeft={secondsLeft}
-          cpm={cpm}
+          wpm={wpm}
           progress={progress}
           isFinished={isFinished}
         />
 
         <div className="p-6 sm:p-8">
-          <>
-            <RacePassage input={input} disabled={isFinished} />
+          {started ? (
+            <>
+              <RacePassage input={input} disabled={isFinished} />
 
-            <RaceInput
-              value={input}
-              disabled={isFinished}
-              onChange={setInput}
-              inputRef={inputRef}
-            />
+              <RaceInput
+                value={input}
+                disabled={isFinished}
+                onChange={setInput}
+                inputRef={inputRef}
+              />
 
-            <div className="mt-6">
-              <RaceStats stats={stats} />
-            </div>
-          </>
+              <div className="mt-6">
+                <RaceStats stats={stats} />
+              </div>
+            </>
+          ) : (
+            <PlayerNameGate onSubmit={handleNameSubmit} />
+          )}
         </div>
       </motion.div>
       <ResultModal

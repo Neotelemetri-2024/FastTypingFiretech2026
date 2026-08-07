@@ -7,12 +7,20 @@ type RaceInputProps = {
   inputRef: React.RefObject<HTMLInputElement | null>;
 };
 
+/** Panjang maksimum input; RACE_TEXT maksimal sepanjang ini, jadi ketikan lebih tidak menambah skor. */
+const MAX_INPUT_LENGTH = 350;
+
 export default function RaceInput({
   value,
   disabled,
   onChange,
   inputRef,
 }: RaceInputProps) {
+  const handlePaste = (event: React.ClipboardEvent) => {
+    // Blokir paste — alan monkeytype, skor hanya berasal dari ketikan asli.
+    event.preventDefault();
+  };
+
   return (
     <div className="relative mt-6">
       <div className="relative">
@@ -24,7 +32,8 @@ export default function RaceInput({
           ref={inputRef}
           type="text"
           value={value}
-          onChange={(event) => onChange(event.target.value)}
+          onChange={(event) => onChange(event.target.value.slice(0, MAX_INPUT_LENGTH))}
+          onPaste={handlePaste}
           disabled={disabled}
           placeholder="Type here..."
           aria-label="Typing area"

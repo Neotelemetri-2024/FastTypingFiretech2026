@@ -21,8 +21,8 @@ function computeStats(): Stat[] {
 
   return [
     { label: "Total Races", icon: Trophy, value: scores.length, suffix: "" },
-    { label: "Top Speed", icon: Zap, value: topSpeed, suffix: " CPM" },
-    { label: "Average Speed", icon: Flame, value: avgSpeed, suffix: " CPM" },
+    { label: "Top Speed", icon: Zap, value: topSpeed, suffix: " WPM" },
+    { label: "Average Speed", icon: Flame, value: avgSpeed, suffix: " WPM" },
   ];
 }
 

@@ -2,6 +2,7 @@
 
 export type MyScore = {
   race: number;
+  name: string;
   speed: number;
   accuracy: number;
   time: string;
@@ -19,7 +20,12 @@ function readRaw(): MyScore[] {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (!raw) return [];
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    if (!Array.isArray(parsed)) return [];
+    // Discard legacy entries recorded before the player-name gate existed.
+    return parsed.filter(
+      (score): score is MyScore =>
+        typeof score?.name === "string" && score.name.trim().length > 0,
+    );
   } catch {
     return [];
   }
@@ -37,6 +43,7 @@ export function loadMyScores(): MyScore[] {
 
 /** Records a finished race and returns the updated, newest-first list. */
 export function saveMyScore(entry: {
+  name: string;
   speed: number;
   accuracy: number;
   time: string;

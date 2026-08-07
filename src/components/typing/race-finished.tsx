@@ -5,14 +5,14 @@ import { EASE_OUT } from "./typing-data";
 
 
 type RaceFinishedProps = {
-  cpm: number;
+  wpm: number;
   accuracy: number;
   progress: number;
   onRestart: () => void;
 };
 
 export default function RaceFinished({
-  cpm,
+  wpm,
   accuracy,
   progress,
   onRestart,
@@ -56,7 +56,7 @@ export default function RaceFinished({
             darkMode ? "text-slate-500" : "text-slate-400"
           }`}
         >
-          {cpm} CPM · {Math.round(accuracy)}% accuracy · {Math.round(progress)}%
+          {wpm} WPM · {Math.round(accuracy)}% accuracy · {Math.round(progress)}%
           finished
         </p>
       </div>

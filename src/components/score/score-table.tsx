@@ -2,7 +2,6 @@ import { motion } from "framer-motion";
 import { Clock, Crown, Medal } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useTheme } from "../../context/theme";
-import { PLAYER_NAME } from "../typing/typing-data";
 import {
   formatRelativeTime,
   loadMyScores,
@@ -19,7 +18,7 @@ function toLeaderboard(): ScoreEntry[] {
     .sort((a, b) => b.speed - a.speed)
     .map((score, index) => ({
       rank: index + 1,
-      name: PLAYER_NAME,
+      name: score.name || "Player",
       speed: score.speed,
       time: formatRelativeTime(score.recordedAt),
     }));

@@ -118,10 +118,10 @@ export default function MyScoreTable() {
                       darkMode ? "text-blue-500" : "text-red-500"
                     }`}
                   />
-                  {score.speed}
-                  <span className="text-[10px] font-semibold text-slate-400">
-                    CPM
-                  </span>
+                      {score.speed}
+                      <span className="text-[10px] font-semibold text-slate-400">
+                        WPM
+                      </span>
                 </span>
                 <span
                   className={`inline-flex items-center gap-1.5 text-sm font-bold tabular-nums ${
@@ -238,7 +238,7 @@ export default function MyScoreTable() {
                       />
                       {score.speed}
                       <span className="text-[10px] font-semibold text-slate-400">
-                        CPM
+                        WPM
                       </span>
                     </span>
                   </td>

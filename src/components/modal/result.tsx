@@ -84,7 +84,7 @@ export default function ResultModal({
                         {score.race}
                       </td>
                       <td className="px-3 py-2.5 text-slate-700">
-                        {score.speed} cpm
+                        {score.speed} wpm
                       </td>
                       <td className="px-3 py-2.5 text-slate-700">
                         {score.accuracy}%
