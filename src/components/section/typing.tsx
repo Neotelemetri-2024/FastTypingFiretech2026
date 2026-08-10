@@ -13,6 +13,7 @@ import {
 import {
   EASE_OUT,
   getSpeedStats,
+  pickRandomRaceText,
   RACE_DURATION,
   RACE_TEXT,
 } from "../typing/typing-data";
@@ -81,6 +82,7 @@ export default function Typing() {
   }, [started, isFinished, wpm, accuracy, elapsed, playerName]);
 
   const handleNameSubmit = (name: string) => {
+    pickRandomRaceText();
     setPlayerName(name);
     setStarted(true);
     requestAnimationFrame(() => inputRef.current?.focus());
@@ -89,6 +91,7 @@ export default function Typing() {
   const handleRestart = () => {
     hasShownResult.current = false;
 
+    pickRandomRaceText();
     setInput("");
     setSecondsLeft(RACE_DURATION);
     setShowResult(false);

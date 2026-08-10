@@ -1,5 +1,27 @@
-export const RACE_TEXT =
-  "Dini memiliki kendala dalam menyelesaikan tugasnya. Ia ingin mempunyai sebuah website yang bisa mengelola semua tugasnya agar tidak ada satupun tugas yang terlewat untuk dikerjakan. Untuk itu, Dini meminta Neo Telemetri untuk membuatkan sebuah website yang mampu mengelola kumpulan tugas tersebut.";
+/** Kumpulan teks race — satu dipilih acak setiap kali race dimulai/diulang. */
+export const RACE_TEXTS = [
+  "Dini memiliki kendala dalam menyelesaikan tugasnya. Ia ingin mempunyai sebuah website yang bisa mengelola semua tugasnya agar tidak ada satupun tugas yang terlewat untuk dikerjakan. Untuk itu, Dini meminta Neo Telemetri untuk membuatkan sebuah website yang mampu mengelola kumpulan tugas tersebut.",
+  "Rian sering lupa jadwal rapat pentingnya. Ia membutuhkan sebuah aplikasi yang mampu mengingatkan setiap agenda secara otomatis agar tidak ada satupun jadwal yang terlewat. Karena itu, Rian meminta Neo Telemetri untuk merancang sebuah aplikasi pengingat yang praktis dan mudah digunakan setiap hari.",
+  "Sari ingin belajar mengetik dengan lebih cepat dan akurat. Ia mencari sebuah platform latihan yang bisa mengukur kecepatan serta ketepatan ketikannya secara real time. Untuk itu, Sari meminta Neo Telemetri untuk membangun sebuah website latihan mengetik yang seru dan menantang untuk semua pengguna.",
+  "Budi mengelola sebuah toko online kecil miliknya sendiri. Ia memerlukan sistem yang dapat mencatat stok barang dan pesanan pelanggan secara rapi. Oleh karena itu, Budi meminta Neo Telemetri untuk mengembangkan sebuah aplikasi manajemen toko yang sederhana namun tetap lengkap dan mudah dipahami.",
+  "Lina baru saja pindah ke kota yang benar-benar asing baginya. Ia butuh sebuah peta digital yang menunjukkan lokasi penting seperti rumah sakit dan sekolah terdekat. Karena itu, Lina meminta Neo Telemetri untuk menciptakan sebuah aplikasi peta interaktif yang informatif bagi warga baru di kota tersebut.",
+  "Andi berencana menabung untuk membeli laptop baru tahun depan. Ia ingin mempunyai sebuah aplikasi yang mampu mencatat pemasukan dan pengeluaran hariannya dengan rapi. Untuk itu, Andi meminta Neo Telemetri untuk merancang sebuah aplikasi keuangan pribadi yang ringan dan menyenangkan digunakan setiap hari.",
+  "Maya adalah seorang guru yang ingin murid-muridnya lebih semangat belajar. Ia menginginkan sebuah kuis daring yang bisa dikerjakan kapan saja dari rumah masing-masing. Karena itu, Maya meminta Neo Telemetri untuk membuatkan sebuah platform kuis interaktif yang menyenangkan dan mudah diakses semua orang.",
+] as const;
+
+function getRandomRaceText(exclude?: string): string {
+  const pool = RACE_TEXTS.filter((text) => text !== exclude);
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+/** Teks race yang sedang aktif; live binding — berubah lewat `pickRandomRaceText`. */
+export let RACE_TEXT: string = getRandomRaceText();
+
+/** Pilih teks baru secara acak (tidak sama dengan yang sedang berjalan) untuk race berikutnya. */
+export function pickRandomRaceText(): string {
+  RACE_TEXT = getRandomRaceText(RACE_TEXT);
+  return RACE_TEXT;
+}
 
 export const RACE_DURATION = 59;
 
