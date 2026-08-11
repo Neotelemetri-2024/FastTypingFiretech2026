@@ -62,11 +62,7 @@ export default function RacePassage({ input, disabled }: RacePassageProps) {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           className="pointer-events-none absolute -top-5 left-1/2 z-10 -translate-x-1/2"
-        >
-          <span className="rounded-full border border-slate-300 bg-white px-3 py-1 text-[10px] font-semibold tracking-wide text-slate-500 uppercase shadow-sm">
-            Autoscroll on
-          </span>
-        </motion.div>
+        ></motion.div>
       )}
     </div>
   );
